@@ -21,7 +21,14 @@ public class EstudianteRepositoryImpl implements IEstudianteRepository{
 		// TODO Auto-generated method stub
 		TypedQuery<Estudiante> myQuery = this.entityManeger.createQuery("SELECT e FROM Estudiante e WHERE e.cedula=:datoCedula", Estudiante.class);
 		myQuery.setParameter("datoCedula", cedula);
-		return null;
+		return myQuery.getSingleResult();
+	}
+
+	@Override
+	public void insertar(Estudiante estudiante) {
+		// TODO Auto-generated method stub
+		this.entityManeger.persist(estudiante);
+		
 	}
 
 }
