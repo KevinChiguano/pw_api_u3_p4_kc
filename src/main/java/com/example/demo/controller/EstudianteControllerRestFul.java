@@ -3,6 +3,10 @@ package com.example.demo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -25,15 +29,31 @@ public class EstudianteControllerRestFul {
 	private IEstudianteService estudianteService;
 
 	// GET
-	@GetMapping(path = "/{cedula}")
-	public Estudiante consultarPorCedula(@PathVariable String cedula) {
-		return this.estudianteService.consultarPorCedula(cedula);
+	@GetMapping(path = "/{cedula}")	
+	public ResponseEntity<Estudiante> consultarPorCedula(@PathVariable String cedula) {
+		return ResponseEntity
+				.status(227)
+				.body(this.estudianteService.consultarPorCedula(cedula));
+	}
+	
+	@GetMapping(path = "/status/{cedula}")	
+	public ResponseEntity<Estudiante> consultarPorCedulaStatus(@PathVariable String cedula) {
+		return ResponseEntity
+				.status(HttpStatus.OK)
+				.body(this.estudianteService.consultarPorCedula(cedula));
 	}
 	
 	@GetMapping
-	public List<Estudiante> consultarTodos(@RequestParam String provincia) {
+	public ResponseEntity<List<Estudiante>> consultarTodos(@RequestParam String provincia) {
 		//buscarTodos?provincia=pichincha
-		return this.estudianteService.buscarTodos(provincia);
+		//List<Estudiante> lista = this.estudianteService.buscarTodos(provincia);
+		//return this.estudianteService.buscarTodos(provincia);
+		
+		HttpHeaders cabeceras = new HttpHeaders();
+		cabeceras.add("detalleMensaje", "Ciudadanos consultados exitosamente");
+		cabeceras.add("valorAPI", "Incalculable");
+		
+		return new ResponseEntity<>(this.estudianteService.buscarTodos(provincia),cabeceras,228);
 	}
 
 	@PostMapping
