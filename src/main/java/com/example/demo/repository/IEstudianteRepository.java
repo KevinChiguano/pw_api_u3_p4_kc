@@ -17,5 +17,7 @@ public interface IEstudianteRepository {
 	public void borrar(Integer id);
 	
 	public List<Estudiante> seleccionarTodo(String provincia);
+	
+	public List<Estudiante> buscarTodos();
 
 }
