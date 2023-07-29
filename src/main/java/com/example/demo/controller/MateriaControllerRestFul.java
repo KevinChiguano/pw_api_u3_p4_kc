@@ -26,22 +26,13 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class MateriaControllerRestFul {
 
 	@Autowired
-	private IMateriaService materiaService;
+    private IMateriaService materiaService;
 
-	@GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<MateriaTO> consultarTodosHATEOAS(@PathVariable Integer id) {
-		MateriaTO mat = this.materiaService.buscarPorId(null);
+ 
 
-		Link myLink = linkTo(methodOn(MateriaControllerRestFul.class).buscarPorId(mat.getId()))
-				.withRel("materias");
-		mat.add(myLink);
-
-		return new ResponseEntity<>(mat, null, 200);
-	}
-
-	@GetMapping(path = "/{cedula}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<MateriaTO> buscarPorId(@PathVariable Integer id) {
-		return new ResponseEntity<>(this.materiaService.buscarPorId(id), null, 200);
-	}
+    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public MateriaTO buscarPorId(@PathVariable Integer id) {
+        return this.materiaService.buscarPorId(id);
+    }
 
 }
