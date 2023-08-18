@@ -2,15 +2,15 @@ package com.example.demo.repository;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.repository.modelo.Estudiante;
-
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.Query;
-import jakarta.persistence.TypedQuery;
-import jakarta.transaction.Transactional;
 
 @Repository
 @Transactional
@@ -80,6 +80,12 @@ public class EstudianteRepositoryImpl implements IEstudianteRepository{
 		// TODO Auto-generated method stub
 		TypedQuery<Estudiante> myQuery = this.entityManeger.createQuery("SELECT e FROM Estudiante e", Estudiante.class);
 		return myQuery.getResultList();
+	}
+
+	@Override
+	public Estudiante seleccionarPorId(Integer id) {
+		// TODO Auto-generated method stub
+		return this.entityManeger.find(Estudiante.class, id);
 	}
 
 }

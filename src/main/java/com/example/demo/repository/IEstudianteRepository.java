@@ -8,6 +8,8 @@ public interface IEstudianteRepository {
 	
 	public Estudiante seleccionarPorCedula(String cedula);
 	
+	public Estudiante seleccionarPorId(Integer id);
+	
 	public void insertar(Estudiante estudiante);
 	
 	public void actualizar(Estudiante estudiante);

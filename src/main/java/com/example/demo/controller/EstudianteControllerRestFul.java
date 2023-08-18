@@ -1,12 +1,14 @@
 package com.example.demo.controller;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -27,9 +29,6 @@ import com.example.demo.service.IEstudianteService;
 import com.example.demo.service.IMateriaService;
 import com.example.demo.service.to.EstudianteTO;
 import com.example.demo.service.to.MateriaTO;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 
 @RestController
@@ -71,7 +70,7 @@ public class EstudianteControllerRestFul {
 		return new ResponseEntity<>(this.estudianteService.buscarTodos(provincia),cabeceras,228);
 	}
 
-	@PostMapping(consumes = "application/xml")
+	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 	public void guardar(@RequestBody Estudiante estudiante) {
 		this.estudianteService.guardar(estudiante);
 	}
@@ -92,12 +91,14 @@ public class EstudianteControllerRestFul {
 		this.estudianteService.actualizar(estu1);
 	}
 
-	@DeleteMapping(path = "/{id}")
-	public void borrar(@PathVariable Integer id) {
+	@DeleteMapping(path = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<EstudianteTO> borrar(@PathVariable Integer id) {
+		EstudianteTO estu =  this.estudianteService.consultarPorId(id);
 		this.estudianteService.eliminar(id);
+		return new ResponseEntity<>(estu,null,200);
 	}
 	
-	@PostMapping(path = "/Respuesta",produces = "application/xml", consumes = "application/xml")
+	@PostMapping(path = "/Respuesta",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Estudiante guardarRespuesta(@RequestBody Estudiante estudiante) {
 		
 		String cedula = estudiante.getCedula();

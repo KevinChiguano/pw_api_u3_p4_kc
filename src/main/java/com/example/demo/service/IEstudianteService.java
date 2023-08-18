@@ -20,4 +20,6 @@ public interface IEstudianteService {
 	public List<Estudiante> buscarTodos(String provincia);
 	
 	public List<EstudianteTO> buscarTodos();
+	
+	public EstudianteTO consultarPorId(Integer id);
 }
